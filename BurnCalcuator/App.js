@@ -1,6 +1,8 @@
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, SafeAreaView, Alert, Button, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, SafeAreaView, Alert, TouchableOpacity } from 'react-native';
 import { useState } from 'react';
+
 
 export default function App() {
   return (
@@ -26,20 +28,30 @@ function MainScreen() {
       return;
     }
 
-    const cost = (liters / 100) * dist * fuelPrice;
-    Alert.alert('Koszt podróży', `Koszt podróży wynosi: ${cost.toFixed(2)} zł`);
+    const fuelConsumption = (liters / dist) * 100; 
+const cost = (liters / 100) * dist * fuelPrice;
+
+Alert.alert(
+  'Wyniki',
+  `Spalanie wynosi: ${fuelConsumption.toFixed(2)} L/100km\nKoszt podróży wynosi: ${cost.toFixed(2)} zł`
+);
   }
+
+  const resetFields = () => {
+    setLitersOfGas('');
+    setDistance('');
+    setPrice('');
+  }
+
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      {/* Pasek u góry */}
       <View style={styles.header}>
         <Text style={styles.headerText}>Burn Calculator</Text>
       </View>
 
-      {/* Formularz */}
       <View style={styles.form}>
-        <Text style={styles.title}>Oblicz koszt podróży</Text>
+        <Text style={styles.title}>Oblicz spalanie oraz koszt podróży</Text>
 
         <TextInput
           style={styles.input}
@@ -63,9 +75,12 @@ function MainScreen() {
           onChangeText={setPrice}
         />
 
-        {/* Ciemnozielony przycisk */}
         <TouchableOpacity style={styles.button} onPress={handleCalculate}>
           <Text style={styles.buttonText}>Oblicz</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button} onPress={resetFields}>
+          <Text style={styles.buttonText}>Resetuj</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -75,10 +90,10 @@ function MainScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFF0', // kość słoniowa
+    backgroundColor: '#FFFFF0', 
   },
   header: {
-    backgroundColor: '#006400', // ciemnozielony
+    backgroundColor: '#006400', 
     padding: 20,
     alignItems: 'center',
     justifyContent: 'center',
@@ -86,7 +101,7 @@ const styles = StyleSheet.create({
   headerText: {
     color: 'white',
     fontSize: 24,
-    fontWeight: 'bold', // gruba czcionka
+    fontWeight: 'bold', 
   },
   form: {
     flex: 1,
@@ -110,7 +125,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   button: {
-    backgroundColor: '#006400', // ciemnozielony
+    backgroundColor: '#006400', 
     padding: 15,
     borderRadius: 8,
     alignItems: 'center',
